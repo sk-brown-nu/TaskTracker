@@ -2,6 +2,7 @@ import win32gui
 import time
 import win32process
 import wmi
+import json
 
 c = wmi.WMI()
 
@@ -18,6 +19,11 @@ def get_app_name(hwnd):
         return exe
 
 
+def write_json(data, filename):
+    with open(filename, "w") as f:
+        json.dump(data, f, indent=4)
+
+
 if __name__ == '__main__':
     active_app_name = ""
     while True:
@@ -26,6 +32,15 @@ if __name__ == '__main__':
 
         if active_app_name != new_app_name:
             active_app_name = new_app_name
+
+            with open('tasks.json', "r") as file:
+                data = json.load(file)
+                temp = data["tasks"]
+                entry = {"name": active_app_name}
+                temp.append(entry)
+
+            write_json(data, 'tasks.json')
+
             print(active_app_name)
 
         time.sleep(3)
