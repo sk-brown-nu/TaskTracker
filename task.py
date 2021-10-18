@@ -2,6 +2,17 @@ class TaskList:
     def __init__(self, tasks):
         self.tasks = tasks
 
+    def serialise(self):
+        return {
+            "tasks": self.get_serialised_tasks()
+        }
+
+    def get_serialised_tasks(self):
+        serialised_list = []
+        for task in self.tasks:
+            serialised_list.append(task.serialise())
+        return serialised_list
+
 
 class Task:
     def __init__(self, name, time_entries):
