@@ -13,4 +13,17 @@ class TimeEntry:
     def __init__(self, start, end):
         self.start = start
         self.end = end
-        self.total = end-start
+        self.duration = end-start
+        duration_in_seconds = self.duration.total_seconds()
+        self.hours = divmod(duration_in_seconds, 3600)
+        self.minutes = divmod(self.hours[1], 60)
+        self.seconds = divmod(self.minutes[1], 1)
+
+    def serialise(self):
+        return {
+            "start": self.start.strftime("%Y-%m-%d %H:%M:%S"),
+            "end": self.end.strftime("%Y-%m-%d %H:%M:%S"),
+            "hours": self.hours[0],
+            "minutes": self.minutes[0],
+            "seconds": self.seconds[0],
+        }
