@@ -1,3 +1,8 @@
+class TaskList:
+    def __init__(self, tasks):
+        self.tasks = tasks
+
+
 class Task:
     def __init__(self, name, time_entries):
         self.name = name
