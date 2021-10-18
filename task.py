@@ -8,6 +8,18 @@ class Task:
         self.name = name
         self.time_entries = time_entries
 
+    def get_serialised_time_entries(self):
+        serialised_list = []
+        for entry in self.time_entries:
+            serialised_list.append(entry.serialise())
+        return serialised_list
+
+    def serialise(self):
+        return {
+            "name": self.name,
+            "time_entries": self.get_serialised_time_entries()
+        }
+
 
 class TimeEntry:
     def __init__(self, start, end):
@@ -25,5 +37,5 @@ class TimeEntry:
             "end": self.end.strftime("%Y-%m-%d %H:%M:%S"),
             "hours": self.hours[0],
             "minutes": self.minutes[0],
-            "seconds": self.seconds[0],
+            "seconds": self.seconds[0]
         }
