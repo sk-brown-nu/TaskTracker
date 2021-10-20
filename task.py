@@ -1,17 +1,54 @@
+import datetime
+import json
+from dateutil import parser
+
+
 class TaskList:
     def __init__(self, tasks):
         self.tasks = tasks
 
-    def serialise(self):
-        return {
-            "tasks": self.get_serialised_tasks()
-        }
+    def initialise_me(self):
+        with open('tasks.json', "r") as file:
+            data = json.load(file)
+            task_list = TaskList(
+                tasks=self.get_tasks_from_json(data)
+            )
+        return task_list
+
+    def get_tasks_from_json(self, data):
+        tasks_list = []
+        for task in data["tasks"]:
+            tasks_list.append(
+                Task(
+                    name=task["name"],
+                    time_entries=self.get_time_entries_from_json(data)
+                )
+            )
+        self.tasks = tasks_list
+        return tasks_list
+
+    def get_time_entries_from_json(self, data):
+        time_entries_list = []
+        for entry in data["time_entries"]:
+            time_entries_list.append(
+                TimeEntry(
+                    start=parser.parse(entry["start"]),
+                    end=parser.parse(entry["end"])
+                )
+            )
+        self.time_entries = time_entries_list
+        return time_entries_list
 
     def get_serialised_tasks(self):
         serialised_list = []
         for task in self.tasks:
             serialised_list.append(task.serialise())
         return serialised_list
+
+    def serialise(self):
+        return {
+            "tasks": self.get_serialised_tasks()
+        }
 
 
 class Task:
