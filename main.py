@@ -37,7 +37,6 @@ if __name__ == '__main__':
             new_app_name = get_app_name(new_app)
 
             if active_app_name != new_app_name:
-                active_app_name = new_app_name
 
                 if not first_time:
                     end_time = datetime.datetime.now()
