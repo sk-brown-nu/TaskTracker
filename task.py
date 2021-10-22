@@ -21,15 +21,15 @@ class TaskList:
             tasks_list.append(
                 Task(
                     name=task["name"],
-                    time_entries=self.get_time_entries_from_json(data)
+                    time_entries=self.get_time_entries_from_json(task)
                 )
             )
         self.tasks = tasks_list
         return tasks_list
 
-    def get_time_entries_from_json(self, data):
+    def get_time_entries_from_json(self, task):
         time_entries_list = []
-        for entry in data["time_entries"]:
+        for entry in task["time_entries"]:
             time_entries_list.append(
                 TimeEntry(
                     start=parser.parse(entry["start"]),
